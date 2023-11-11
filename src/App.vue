@@ -24,7 +24,7 @@ function start() {
   let ticket = "";
 
   try {
-    new URL(target.value);
+    new URL(target.value.split(" ").pop() as string);
   } catch (_e) {
     alert("URLが不正です。");
     return;
