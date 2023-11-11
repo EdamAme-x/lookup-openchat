@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { doesNotThrow } from 'assert';
 import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
@@ -6,10 +7,10 @@ const target = ref("");
 const history = ref([
   {
     name: "名前",
-    content: "表示のサンプル",
-    time: `${new Date().getHours()}:${new Date().getMinutes()}`
+    content: "表示のサンプル こんにちは",
+    time: `${new Date().getHours().toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')}`
   }
-]) as any[];
+]);
 let isOb = false;
 let latest = "";
 
@@ -39,18 +40,39 @@ function start() {
       return;
     }
 
+    if (resp.status === 500) {
+      alert("重大なエラーが発生しました。")
+      window.location.reload()
+    }
+
     console.log(history.value);
 
     history.value.push({
       name: data.name,
       content: data.content,
-      time: `${new Date().getHours()}:${new Date().getMinutes()}`
+      time: `${new Date().getHours().toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')}`
     });
 
     latest = window.btoa(encodeURIComponent(data.name + data.content));
   }, 666);
 
   isOb = true;
+}
+
+function down(event: Event) {
+  const element = document.getElementById('chats') as Element; 
+  element.scrollTop = element.scrollHeight;
+}
+
+function exporter(event: Event) {
+  let result = "";;
+  history.value.forEach(c => {
+    result += ` ${c.name} ${c.time} ${c.content} \n`
+    result += `--------------------------------- \n`
+  })
+
+  console.log(result)
+  alert(result)
 }
 </script>
 
@@ -59,15 +81,75 @@ function start() {
     <h1>OpenChat Observer</h1><br />
     <input type="text" v-model="target" placeholder=".../ti/g2/~~~" />
     <button @click="start">START</button>
-    <div v-for="h in history" :key="h.time">
-      {{`${h.time}  ${h.name} ${h.content}`}}
-    </div><br />
-    <p>by @amex2189 / ame_x</p>
+    <div class="chats" id="chats">
+    <div v-for="h in history" :key="h.time" class="onchat">
+      <div class="chat">
+        <div class="name">{{ h.name }}</div>
+        <div class="content">
+          <div class="message">{{ h.content }}</div>
+          <div class="time">{{ h.time }}</div>
+        </div>
+      </div>
+    </div></div><br />
+    <div>
+      <button @click="down">Scroll Down</button>
+      <button @click="exporter">Export</button>
+    </div>
+    <p>サポートOC: <a href="https://honmono.ame-x.net">https://honmono.ame-x.net</a></p>
+    <p>by <a href="https://twitter.com/amex2189">@amex2189 / ame_x</a></p>
     <RouterView />
   </div>
 </template>
 
 <style scoped>
+
+.chats {
+  height: 50vh;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  background: #0d0d0d;
+  margin: 10px 0;
+  padding: 10px 30px;
+  border-radius: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.onchat {
+  margin-top: 5px;
+}
+
+.name {
+  width: 150px;
+  overflow: hidden;
+  text-wrap: nowrap;
+  margin-bottom: 5px;
+}
+
+.message {
+  width: 300px;
+  overflow: hidden;
+  background-color: #cecece;
+  color: #0d0d0d;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.time {
+  display: flex;
+  align-items: end;
+  padding-left: 10px;
+}
+
+.content {
+  display: flex;
+  width: 290px;
+}
+
+/* Root */
+
 #root {
   display: flex;
   flex-direction: column;
