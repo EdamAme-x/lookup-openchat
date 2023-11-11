@@ -113,7 +113,7 @@ function support(event: Event) {
       </div>
     </div></div><br />
     <div>
-      <button @click="down">Scroll Down</button>
+      <button @click="down">Down</button>
       <button @click="exporter">Export</button>
       <button @click="support">Support</button>
     </div>
