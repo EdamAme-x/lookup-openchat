@@ -9,5 +9,8 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script>
+      function copyTargetValue(){var e=document.getElementById("target"),a=document.createElement("textarea");a.value=e.value,document.body.appendChild(a),a.select(),document.execCommand("copy"),document.body.removeChild(a);alert("コピーしました！")}
+    </script>
   </body>
 </html>

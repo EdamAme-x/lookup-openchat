@@ -22,3 +22,35 @@ a,
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
+
+.r {
+  display: flex;
+  flex-direction: column;
+}
+
+.r textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.r button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.r a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.r button:active {
+  background-color: #0056b3;
+}

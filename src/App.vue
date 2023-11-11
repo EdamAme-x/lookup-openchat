@@ -2,6 +2,7 @@
 import { doesNotThrow } from 'assert';
 import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
+import * as Swal from "sweetalert2";
 
 const target = ref("");
 const history = ref([
@@ -54,7 +55,7 @@ function start() {
     });
 
     latest = window.btoa(encodeURIComponent(data.name + data.content));
-  }, 666);
+  }, 600);
 
   isOb = true;
 }
@@ -72,7 +73,27 @@ function exporter(event: Event) {
   })
 
   console.log(result)
-  alert(result)
+  Swal.fire({
+  title: "<strong>LOG EXPORT</strong>",
+  icon: "info",
+  html: `
+  <div class="r">
+    <textarea id="target">${result}</textarea>
+    <button onclick="copyTargetValue()">Copy</button>
+  </div>
+  `,
+});
+}
+
+function support(event: Event) {
+  Swal.fire({
+    title: "説明書",
+    html: `このツールはオプを外部から覗くことが可能です。
+またエクスポート等便利な機能も有ります。
+詳細は https://honmono.ame-x.net
+<br />
+開発者: @amex2189 / スポンサー: Calensk`
+  })
 }
 </script>
 
@@ -94,6 +115,7 @@ function exporter(event: Event) {
     <div>
       <button @click="down">Scroll Down</button>
       <button @click="exporter">Export</button>
+      <button @click="support">Support</button>
     </div>
     <p>サポートOC: <a href="https://honmono.ame-x.net">https://honmono.ame-x.net</a></p>
     <p>by <a href="https://twitter.com/amex2189">@amex2189 / ame_x</a></p>
