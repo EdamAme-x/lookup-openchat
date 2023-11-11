@@ -30,7 +30,7 @@ function start() {
     return;
   }
 
-  ticket = new URL(target.value).pathname.split("/").pop() ?? "";
+  ticket = new URL(target.value.split(" ").pop() as string).pathname.split("/").pop() ?? "";
 
   history.value = [];
 
