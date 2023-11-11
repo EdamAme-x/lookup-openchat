@@ -33,7 +33,7 @@ function start() {
   history.value = [];
 
   const interval = setInterval(async () => {
-    const resp = await fetch("https://lookup-msg-oc-amex2189.edame8080.workers.dev/" + ticket);
+    const resp = await fetch("https://lookup-msg-oc-amex2189.edame8080.workers.dev/" + ticket + "?key=" + Math.random().toString(16).slice(-4));
     const data = await resp.json();
     if (window.btoa(encodeURIComponent(data.name + data.content)) === latest) {
       return;
